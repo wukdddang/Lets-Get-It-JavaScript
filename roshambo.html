@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿵쿵따</title>
+</head>
+
+<body>
+    <div><span id="nowTurn">1</span>번째 사람</div>
+    <div>제시어: <span id="nowWord"></span></div>
+    <input type="text">
+    <button>입력</button>
+    <script>
+        const number = parseInt(prompt("몇 명이 참가하나요?"));
+        const $button = document.querySelector('button');
+        const $input = document.querySelector('input');
+        const $word = document.querySelector('#nowWord');
+        const $nowTurn = document.querySelector('#nowTurn');
+
+        let word; // 제시어.
+        let newWord; // 이번 쿵쿵따 단어.
+
+        const wordSubmit = () => {
+            if (newWord.length > 3) {
+                alert("세 글자를 넘어섭니다. 다시 입력해주세요!");
+                $input.value = '';
+                $input.focus();
+            } else if (!word || word[word.length - 1] === newWord[0]) {
+                // 현재 제시어가 없거나, 제시어의 끝단어랑 이번 단어의 앞단어가 같으면
+                word = newWord; // 현재 단어를 교체.
+                $word.textContent = word;
+                $input.value = '';
+                $input.focus();
+
+                // nowTurn 바꿔주기
+                let newTurn = Number($nowTurn.textContent);
+                $nowTurn.textContent = (newTurn + 1) > number ? 1 : newTurn + 1;
+
+            } else {
+                alert("틀린 글자입니다. 다시 입력해주세요!");
+                $input.value = '';
+                $input.focus();
+            }
+        }
+
+        const typeWord = (event) => {
+            newWord = event.target.value;
+        };
+
+        $button.addEventListener('click', wordSubmit);
+        $input.addEventListener('input', typeWord);
+    </script>
+</body>
+
+</html>
